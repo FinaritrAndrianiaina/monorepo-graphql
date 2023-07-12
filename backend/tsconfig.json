@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDirs": ["src","resolvers","types"],
+    "outDir": "dist",
+    "lib": ["esnext","esnext.asynciterable"],
+    "target": "esnext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}

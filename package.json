@@ -1,0 +1,14 @@
+{
+  "name": "ficommerce",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "pnpm --stream -r start",
+    "start:dev": "pnpm --parallel --stream -r run start:dev",
+    "build": "pnpm --stream -r run build",
+    "clean": "rm -rf .parcel-cache && pnpm -r run clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
