@@ -1,6 +1,6 @@
 import {Args, Ctx, Query, Resolver} from "type-graphql";
-import {FindManyRecipeArgs, FindUniqueRecipeArgs, Recipe} from "@ficommerce/generated/graphql";
-import {ServerContext} from "@ficommerce/generated";
+import {FindManyRecipeArgs, FindUniqueRecipeArgs, Recipe} from "@ficommerce/generated/gql";
+import {ServerContext} from "../src/server";
 
 @Resolver(Recipe)
 export class RecipeResolver {
