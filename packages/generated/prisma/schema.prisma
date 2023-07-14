@@ -3,10 +3,23 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/prisma"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "../src/typegraphql"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model recipe {
+  id           String   @default(uuid())
+  title        String   @db.VarChar(250)
+  decription   String?  @db.Text
+  creationDate DateTime @default(now())
+
+  @@unique([id])
 }

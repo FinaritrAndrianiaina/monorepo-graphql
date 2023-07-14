@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
-    "rootDirs": ["src","resolvers","types"],
+    "rootDirs": ["src"],
     "outDir": "dist",
-    "lib": ["esnext","esnext.asynciterable"],
-    "target": "esnext",
+    "lib": ["es2020","esnext.asynciterable"],
+    "target": "es2020",
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
     "esModuleInterop": true,
     "types": ["node"],
     "experimentalDecorators": true,

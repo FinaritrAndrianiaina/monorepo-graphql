@@ -1,20 +1,12 @@
 import "reflect-metadata";
-import {Field, ID, ObjectType} from "type-graphql";
+import * as prisma from "@prisma/client";
+import * as typegraphql from "./typegraphql";
 
-@ObjectType()
-export class Recipe {
-    @Field(type => ID)
-    id: string;
+export interface ServerContext {
+    prisma: prisma.PrismaClient;
+}
 
-    @Field()
-    title: string;
-
-    @Field({nullable: true})
-    description?: string;
-
-    @Field()
-    creationDate: Date;
-
-    @Field(type => [String])
-    ingredients: string[];
+export {
+    prisma,
+    typegraphql
 }

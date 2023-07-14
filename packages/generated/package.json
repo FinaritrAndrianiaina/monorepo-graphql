@@ -2,21 +2,40 @@
   "name": "@ficommerce/generated",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/**/*",
+    "prisma/schema.prisma"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./graphql": "./dist/typegraphql/index.js"
+  },
   "scripts": {
-    "clean": "rm -rf build tsconfig.tsbuildinfo",
-    "build": "tsc --incremental",
-    "start:dev": "tsc -w --incremental"
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "build": "prisma generate && tsc --incremental",
+    "start:dev": "dotenv -e ../../.env.local tsc -w --incremental",
+    "prisma:migrate": "dotenv -e ../../.env.local prisma migrate dev",
+    "prisma:generate": "prisma generate",
+    "postinstall": "pnpm run prisma:generate"
   },
   "dependencies": {
+    "@prisma/client": "4.15.0",
+    "@types/graphql-fields": "^1.3.5",
     "class-validator": "0.14.0",
     "graphql": "16.7.1",
+    "graphql-fields": "^2.0.3",
+    "graphql-scalars": "^1.22.2",
     "reflect-metadata": "0.1.13",
-    "type-graphql": "2.0.0-beta.2"
+    "tslib": "^2.6.0",
+    "type-graphql": "2.0.0-beta.2",
+    "typegraphql-prisma": "^0.26.0"
   },
   "devDependencies": {
     "@types/node": "20.4.1",
-    "prisma": "^5.0.0",
+    "prisma": "4.15.0",
     "ts-node": "^10.9.1",
     "typescript": "5.1.6"
   },

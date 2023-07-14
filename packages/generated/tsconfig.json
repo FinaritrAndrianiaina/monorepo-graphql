@@ -1,14 +1,28 @@
 {
   "compilerOptions": {
-    "rootDirs": ["src"],
+    "baseUrl": ".",
+    "rootDirs": [
+      "src"
+    ],
     "outDir": "dist",
-    "lib": ["es2020","esnext.asynciterable"],
+    "lib": [
+      "es2020",
+      "esnext.asynciterable"
+    ],
     "target": "es2020",
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
     "esModuleInterop": true,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
-  }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
