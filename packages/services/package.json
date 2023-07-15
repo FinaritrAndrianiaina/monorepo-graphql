@@ -1,5 +1,5 @@
 {
-  "name": "@ficommerce/generated",
+  "name": "@ficommerce/services",
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
@@ -9,56 +9,23 @@
   "typings": "dist/types/index.d.ts",
   "files": [
     "dist/index.js",
-    "dist/**/*",
-    "prisma/schema.prisma"
+    "dist/**/*"
   ],
-  "exports": {
-    ".": {
-      "types": {
-        "default": "./dist/types/index.d.ts"
-      },
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
-    },
-    "./gql": {
-      "types": {
-        "default": "./dist/types/gql/index.d.ts"
-      },
-      "import": "./dist/esm/gql/index.js",
-      "require": "./dist/cjs/gql/index.js"
-    },
-    "./custom": {
-      "types": {
-        "default": "./dist/types/custom/index.d.ts"
-      },
-      "import": "./dist/esm/custom/index.js",
-      "require": "./dist/cjs/custom/index.js"
-    },
-    "./db": {
-      "types": {
-        "default": "./db/index.d.ts"
-      },
-      "import": "./db/index.js",
-      "require": "./db/index.js"
-    }
-  },
   "scripts": {
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "build": "npm run prisma:generate && npm run build:cjs && npm run build:types",
+    "build": "npm run build:cjs && npm run build:types",
     "build:cjs": "tsc --project  tsconfig.cjs.json",
     "build:types": "tsc --project  tsconfig.types.json",
     "build:esm5": "tsc --project  tsconfig.esm5.json",
     "build:esm2015": "tsc --project  tsconfig.esm2015.json",
-    "packages": "npm run prisma:generate && npm-run-all build:*",
+    "packages": "npm-run-all build:*",
     "start:dev": "npm run build",
-    "prisma:migrate": "dotenv -e ../../.env.local prisma migrate dev",
-    "prisma:generate": "prisma generate",
     "preinstall": "pnpm run packages"
   },
   "dependencies": {
-    "@prisma/client": "4.15.0",
     "@types/graphql-fields": "^1.3.5",
     "class-validator": "0.14.0",
+    "@ficommerce/generated": "workspace:*",
     "graphql": "16.7.1",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.22.2",

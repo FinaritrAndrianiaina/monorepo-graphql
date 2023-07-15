@@ -5,7 +5,7 @@ import {ApolloServer} from "@apollo/server";
 import {startStandaloneServer} from "@apollo/server/standalone";
 import {PrismaClient} from "@ficommerce/generated/db"
 import {CreateOneRecipeResolver} from "@ficommerce/generated/gql";
-import createServices, {Services} from "$services/index";
+import Services, {createServices} from "@ficommerce/services";
 
 export interface ServerContext {
     prisma: PrismaClient;

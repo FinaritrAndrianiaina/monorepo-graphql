@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDirs": ["src"],
     "outDir": "dist",
     "lib": ["es2020","esnext.asynciterable"],
     "target": "es2020",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "commonjs",
+    "moduleResolution": "node16",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
@@ -14,8 +12,14 @@
     "types": ["node"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "baseUrl": "./",
     "paths": {
-      "$services/*": ["./services/*"]
+      "services/*": ["./services/*"],
     }
-  }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": ["node_modules"]
 }
