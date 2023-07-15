@@ -16,7 +16,8 @@
     "reflect-metadata": "0.1.13",
     "type-graphql": "2.0.0-beta.2",
     "@ficommerce/generated": "workspace:*",
-    "@ficommerce/services": "workspace:*"
+    "@ficommerce/services": "workspace:*",
+    "@ficommerce/graphql": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "20.4.1",

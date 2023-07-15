@@ -16,6 +16,9 @@ importers:
       '@ficommerce/generated':
         specifier: workspace:*
         version: link:../packages/generated
+      '@ficommerce/graphql':
+        specifier: workspace:*
+        version: link:../packages/graphql
       '@ficommerce/services':
         specifier: workspace:*
         version: link:../packages/services
@@ -91,14 +94,63 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
+  packages/graphql:
+    dependencies:
+      '@ficommerce/generated':
+        specifier: workspace:*
+        version: link:../generated
+      '@ficommerce/services':
+        specifier: workspace:*
+        version: link:../services
+      '@types/graphql-fields':
+        specifier: ^1.3.5
+        version: 1.3.5
+      class-validator:
+        specifier: 0.14.0
+        version: 0.14.0
+      graphql:
+        specifier: 16.7.1
+        version: 16.7.1
+      graphql-fields:
+        specifier: ^2.0.3
+        version: 2.0.3
+      graphql-scalars:
+        specifier: ^1.22.2
+        version: 1.22.2(graphql@16.7.1)
+      reflect-metadata:
+        specifier: 0.1.13
+        version: 0.1.13
+      tslib:
+        specifier: ^2.6.0
+        version: 2.6.0
+      type-graphql:
+        specifier: 2.0.0-beta.2
+        version: 2.0.0-beta.2(class-validator@0.14.0)(graphql@16.7.1)
+      typegraphql-prisma:
+        specifier: ^0.26.0
+        version: 0.26.0(@prisma/client@4.15.0)(@types/graphql-fields@1.3.5)(@types/node@20.4.1)(graphql-fields@2.0.3)(graphql-scalars@1.22.2)(prisma@4.15.0)(tslib@2.6.0)(type-graphql@2.0.0-beta.2)
+    devDependencies:
+      '@types/node':
+        specifier: 20.4.1
+        version: 20.4.1
+      npm-run-all:
+        specifier: ^4.1.5
+        version: 4.1.5
+      prisma:
+        specifier: 4.15.0
+        version: 4.15.0
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.4.1)(typescript@5.1.6)
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+
   packages/services:
     dependencies:
       '@ficommerce/generated':
         specifier: workspace:*
         version: link:../generated
-      '@prisma/client':
-        specifier: 4.15.0
-        version: 4.15.0(prisma@4.15.0)
       '@types/graphql-fields':
         specifier: ^1.3.5
         version: 1.3.5
