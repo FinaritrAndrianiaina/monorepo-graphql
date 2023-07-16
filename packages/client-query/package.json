@@ -1,0 +1,59 @@
+{
+  "name": "@ficommerce/client-query",
+  "version": "1.0.0",
+  "description": "",
+  "type": "commonjs",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm5/index.js",
+  "es2015": "dist/esm2015/index.js",
+  "typings": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "default": "./dist/types/index.d.ts"
+      },
+      "import": "./dist/esm2015/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./graphql": {
+      "types": {
+        "default": "./dist/types/graphql.d.ts"
+      },
+      "import": "./dist/esm2015/graphql.js",
+      "require": "./dist/cjs/graphql.js"
+    }
+  },
+  "files": [
+    "dist/index.js",
+    "dist/**/*"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "build": "npm run build:cjs && npm run build:types",
+    "build:dev": "npm-run-all --parallel build:*:dev ",
+    "build:cjs": "tsc --project  tsconfig.cjs.json",
+    "build:cjs:dev": "tsc -w --project  tsconfig.cjs.json",
+    "build:types": "tsc --project  tsconfig.types.json",
+    "build:types:dev": "tsc -w --project  tsconfig.types.json",
+    "build:esm5": "tsc --project  tsconfig.esm5.json",
+    "build:esm2015": "tsc --project  tsconfig.esm2015.json",
+    "packages": "npm run codegen:build && npm-run-all build:!(dev)",
+    "start:dev": "npm-run-all --parallel codegen:dev build:dev",
+    "preinstall": "npm-run-all codegen:build packages",
+    "codegen:dev": "graphql-codegen --config codegen.ts -w",
+    "codegen:build": "graphql-codegen --config codegen.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@graphql-codegen/cli": "4.0.1",
+    "@graphql-codegen/client-preset": "4.0.1",
+    "@graphql-typed-document-node/core": "3.2.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "5.1.6"
+  },
+  "dependencies": {
+    "graphql": "16.7.1"
+  }
+}

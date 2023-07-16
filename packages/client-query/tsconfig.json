@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": "./types",
     "lib": [
       "es2020"
     ],
@@ -20,6 +21,7 @@
   },
   "exclude": [
     "dist",
+    "codegen.ts",
     "node_modules",
     "prisma",
     "**/*.spec.ts",

@@ -12,7 +12,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "dist/node",
+    "outDir": "dist",
     "strict": true,
     "sourceMap": true,
     "inlineSources": true,

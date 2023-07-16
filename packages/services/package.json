@@ -14,12 +14,15 @@
   "scripts": {
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "build": "npm run build:cjs && npm run build:types",
+    "build:dev": "npm-run-all --parallel build:*:dev ",
+    "build:cjs:dev": "tsc -w --project  tsconfig.cjs.json",
     "build:cjs": "tsc --project  tsconfig.cjs.json",
     "build:types": "tsc --project  tsconfig.types.json",
+    "build:types:dev": "tsc -w --project  tsconfig.types.json",
     "build:esm5": "tsc --project  tsconfig.esm5.json",
     "build:esm2015": "tsc --project  tsconfig.esm2015.json",
-    "packages": "npm-run-all build:*",
-    "start:dev": "npm run build",
+    "packages": "npm-run-all build:!(dev)",
+    "start:dev": "npm run build:dev",
     "preinstall": "pnpm run packages"
   },
   "dependencies": {

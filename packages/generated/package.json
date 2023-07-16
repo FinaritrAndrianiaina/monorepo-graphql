@@ -17,21 +17,21 @@
       "types": {
         "default": "./dist/types/index.d.ts"
       },
-      "import": "./dist/esm/index.js",
+      "import": "./dist/esm5/index.js",
       "require": "./dist/cjs/index.js"
     },
     "./gql": {
       "types": {
         "default": "./dist/types/gql/index.d.ts"
       },
-      "import": "./dist/esm/gql/index.js",
+      "import": "./dist/esm5/gql/index.js",
       "require": "./dist/cjs/gql/index.js"
     },
     "./custom": {
       "types": {
         "default": "./dist/types/custom/index.d.ts"
       },
-      "import": "./dist/esm/custom/index.js",
+      "import": "./dist/esm5/custom/index.js",
       "require": "./dist/cjs/custom/index.js"
     },
     "./db": {
@@ -45,12 +45,15 @@
   "scripts": {
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "build": "npm run prisma:generate && npm run build:cjs && npm run build:types",
+    "build:dev": "npm run prisma:generate && npm-run-all --parallel build:*:dev ",
     "build:cjs": "tsc --project  tsconfig.cjs.json",
+    "build:cjs:dev": "tsc -w --project  tsconfig.cjs.json",
     "build:types": "tsc --project  tsconfig.types.json",
+    "build:types:dev": "tsc -w --project  tsconfig.types.json",
     "build:esm5": "tsc --project  tsconfig.esm5.json",
     "build:esm2015": "tsc --project  tsconfig.esm2015.json",
-    "packages": "npm run prisma:generate && npm-run-all build:*",
-    "start:dev": "npm run build",
+    "packages": "npm run prisma:generate && npm-run-all build:!(dev)",
+    "start:dev": "npm run build:dev",
     "prisma:migrate": "dotenv -e ../../.env.local prisma migrate dev",
     "prisma:generate": "prisma generate",
     "preinstall": "pnpm run packages"
