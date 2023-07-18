@@ -185,7 +185,7 @@ export type StringNullableFilter = {
   startsWith?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type RecipeItemFragment = { __typename?: 'Recipe', title: string, decription?: string | null } & { ' $fragmentName'?: 'RecipeItemFragment' };
+export type RecipeItemFragment = { __typename?: 'Recipe', id: string, title: string, decription?: string | null } & { ' $fragmentName'?: 'RecipeItemFragment' };
 
 export type FindAllRecipeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -195,5 +195,5 @@ export type FindAllRecipeQuery = { __typename?: 'Query', findAll: Array<(
     & { ' $fragmentRefs'?: { 'RecipeItemFragment': RecipeItemFragment } }
   )> };
 
-export const RecipeItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"decription"}}]}}]} as unknown as DocumentNode<RecipeItemFragment, unknown>;
-export const FindAllRecipeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindAllRecipe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findAll"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RecipeItem"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"decription"}}]}}]} as unknown as DocumentNode<FindAllRecipeQuery, FindAllRecipeQueryVariables>;
+export const RecipeItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"decription"}}]}}]} as unknown as DocumentNode<RecipeItemFragment, unknown>;
+export const FindAllRecipeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindAllRecipe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findAll"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RecipeItem"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"decription"}}]}}]} as unknown as DocumentNode<FindAllRecipeQuery, FindAllRecipeQueryVariables>;

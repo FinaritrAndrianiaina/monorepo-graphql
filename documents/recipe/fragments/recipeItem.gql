@@ -1,4 +1,5 @@
 fragment RecipeItem on Recipe {
+    id
     title
     decription
 }

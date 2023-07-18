@@ -37,7 +37,7 @@
     "build:types:dev": "tsc -w --project  tsconfig.types.json",
     "build:esm5": "tsc --project  tsconfig.esm5.json",
     "build:esm2015": "tsc --project  tsconfig.esm2015.json",
-    "packages": "npm run codegen:build && npm-run-all build:!(dev)",
+    "packages": "npm run codegen:build && npm-run-all \" build:!(dev) \"",
     "start:dev": "npm-run-all --parallel codegen:dev build:dev",
     "preinstall": "npm-run-all codegen:build packages",
     "codegen:dev": "graphql-codegen --config codegen.ts -w",
