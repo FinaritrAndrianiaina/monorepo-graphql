@@ -1,19 +1,33 @@
 <script lang="ts">
-    import {
-        FindAllRecipeDocument,
-    } from "@ficommerce/client-query/graphql";
-    import type {FindAllRecipeQuery, FindAllRecipeQueryVariables} from "@ficommerce/client-query/graphql";
-    import {query} from "svelte-apollo";
+	import { FindAllDocument, SortOrder } from '@ficommerce/client-query';
+	import type {
+		FindAllQuery,
+		FindAllQueryVariables,
+		RecipeItemFragment
+	} from '@ficommerce/client-query';
+	import { query } from 'svelte-apollo';
+	import Item from './Item.svelte';
 
-    const recipe = query<FindAllRecipeQuery, FindAllRecipeQueryVariables>(FindAllRecipeDocument);
+	const recipe = query<FindAllQuery, FindAllQueryVariables>(FindAllDocument, {
+		variables: {
+			orderBy: {
+				creationDate: SortOrder.Asc
+			}
+		}
+	});
+	$: data = $recipe.data?.findAll as RecipeItemFragment[] ?? []
 </script>
 
 {#if $recipe.loading}
-    Loading...
+	Loading...
 {:else if $recipe.error}
-    Error: {$recipe.error.message}
+	Error: {$recipe.error.message}
 {:else}
-    {#each $recipe.data.findAll as item}
-        {item.title}
-    {/each}
+	<ul>
+		<li>
+			{#each data as item}
+				{item.id}
+			{/each}
+		</li>
+	</ul>
 {/if}

@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -75,6 +79,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^5.45.0
         version: 5.45.0(eslint@8.28.0)(typescript@5.1.6)
+      dotenv-cli:
+        specifier: ^7.2.1
+        version: 7.2.1
       eslint:
         specifier: ^8.28.0
         version: 8.28.0

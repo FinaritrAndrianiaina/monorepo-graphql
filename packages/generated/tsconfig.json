@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": ".",
     "lib": [
       "es2020"
     ],
@@ -11,6 +12,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "allowJs": true,
     "outDir": "dist",
     "strict": true,
     "sourceMap": true,

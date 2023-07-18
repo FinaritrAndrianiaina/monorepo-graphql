@@ -12,7 +12,7 @@ export default defineConfig({
             "@apollo/client/link/error",
             "@apollo/client/utilities",
         ],
-        exclude: ["@apollo/client", "svelte-apollo"],
+        exclude: ["@apollo/client", "svelte-apollo","@ficommerce/client-query"],
     },
     ssr: {
         noExternal: ['@apollo/client', 'svelte-apollo'],

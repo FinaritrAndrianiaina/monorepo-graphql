@@ -1,5 +1,5 @@
-query FindAllRecipe{
-    findAll {
-        ...RecipeItem
-    }
+query FindAll($orderBy: [RecipeOrderByWithRelationInput!]) {
+  findAll(orderBy: $orderBy) {
+    ...RecipeItem
+  }
 }

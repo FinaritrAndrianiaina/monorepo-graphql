@@ -7,14 +7,15 @@ const config: CodegenConfig = {
   documents: ['../../documents/**/*.{gql,graphql}'],
   ignoreNoDocuments: true,
   generates: {
-    "./types/": {
+    "./gql/": {
       "preset":"client",
       "plugins": [],
       "config":{
-        "documentNode":"string"
+        "documentNode":"string",
+        "useTypeImports":false
       }
     }
-  },
+  }
 };
 
 export default config;

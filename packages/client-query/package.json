@@ -3,30 +3,29 @@
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm5/index.js",
-  "es2015": "dist/esm2015/index.js",
-  "typings": "dist/types/index.d.ts",
+  "main": "dist/cjs/gql/graphql.js",
+  "module": "dist/esm5/gql/graphql.js",
+  "es2015": "dist/esm2015/gql/graphql.js",
+  "typings": "dist/types/gql/graphql.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "exports": {
     ".": {
       "types": {
-        "default": "./dist/types/index.d.ts"
+        "default": "./dist/types/gql/graphql.d.ts"
       },
-      "import": "./dist/esm2015/index.js",
-      "require": "./dist/cjs/index.js"
+      "import": "./dist/esm5/gql/graphql.js",
+      "require": "./dist/cjs/gql/graphql.js"
     },
-    "./graphql": {
+    "./fragment-masking": {
       "types": {
-        "default": "./dist/types/graphql.d.ts"
+        "default": "./dist/types/gql/fragment-masking.d.ts"
       },
-      "import": "./dist/esm2015/graphql.js",
-      "require": "./dist/cjs/graphql.js"
+      "import": "./dist/esm5/gql/fragment-masking.js",
+      "require": "./dist/cjs/gql/fragment-masking.js"
     }
   },
-  "files": [
-    "dist/index.js",
-    "dist/**/*"
-  ],
   "scripts": {
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "build": "npm run build:cjs && npm run build:types",
@@ -36,9 +35,11 @@
     "build:types": "tsc --project  tsconfig.types.json",
     "build:types:dev": "tsc -w --project  tsconfig.types.json",
     "build:esm5": "tsc --project  tsconfig.esm5.json",
+    "build:esm5:dev": "tsc -w --project  tsconfig.esm5.json",
     "build:esm2015": "tsc --project  tsconfig.esm2015.json",
+    "build:esm2015:dev": "tsc -w --project  tsconfig.esm2015.json",
     "packages": "npm run codegen:build && npm-run-all \" build:!(dev) \"",
-    "start:dev": "npm-run-all --parallel codegen:dev build:dev",
+    "start:dev": "npm-run-all --parallel codegen:dev build:*:dev ",
     "preinstall": "npm-run-all codegen:build packages",
     "codegen:dev": "graphql-codegen --config codegen.ts -w",
     "codegen:build": "graphql-codegen --config codegen.ts"

@@ -36,21 +36,21 @@
     },
     "./db": {
       "types": {
-        "default": "./db/index.d.ts"
+        "default": "./dist/types/db.d.ts"
       },
-      "import": "./db/index.js",
-      "require": "./db/index.js"
+      "import": "./dist/esm5/db.js",
+      "require": "./dist/cjs/db.js"
     }
   },
   "scripts": {
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "build": "npm run prisma:generate && npm run build:cjs && npm run build:types",
+    "build": "npm run packages",
     "build:dev": "npm run prisma:generate && npm-run-all --parallel build:*:dev ",
-    "build:cjs": "tsc --project  tsconfig.cjs.json",
-    "build:cjs:dev": "tsc -w --project  tsconfig.cjs.json",
+    "build:cjs": "tsc --project   tsconfig.cjs.json",
+    "build:cjs:dev": "tsc -w  --incremental --project   tsconfig.cjs.json",
     "build:types": "tsc --project  tsconfig.types.json",
-    "build:types:dev": "tsc -w --project  tsconfig.types.json",
-    "build:esm5": "tsc --project  tsconfig.esm5.json",
+    "build:types:dev": "tsc -w --project   tsconfig.types.json",
+    "build:esm5": "tsc  --incremental --project   tsconfig.esm5.json",
     "build:esm2015": "tsc --project  tsconfig.esm2015.json",
     "packages": "npm run prisma:generate && npm-run-all \" build:!(dev) \"",
     "start:dev": "npm run build:dev",

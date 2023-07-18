@@ -1,11 +1,9 @@
 <script>
-    import {ApolloClient, InMemoryCache} from "@apollo/client/core";
-    import {setClient} from "svelte-apollo";
-    const client = new ApolloClient({
-        uri: 'http://localhost:4000',
-        cache: new InMemoryCache(),
-    });
-
-    setClient(client);
+	import { setClient } from 'svelte-apollo';
+	import { client } from './client';
+	import { PUBLIC_API_URL } from '$env/static/public';
+    console.log(PUBLIC_API_URL)
+	setClient(client);
 </script>
-<slot/>
+
+<slot />
