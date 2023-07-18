@@ -185,17 +185,14 @@ export type StringNullableFilter = {
   startsWith?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type RecipeItemFragment = { __typename?: 'Recipe', id: string, title: string, decription?: string | null, creationDate: any } & { ' $fragmentName'?: 'RecipeItemFragment' };
+export type RecipeItemFragment = { __typename?: 'Recipe', id: string, title: string, decription?: string | null, creationDate: any };
 
 export type FindAllQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<RecipeOrderByWithRelationInput> | RecipeOrderByWithRelationInput>;
 }>;
 
 
-export type FindAllQuery = { __typename?: 'Query', findAll: Array<(
-    { __typename?: 'Recipe' }
-    & { ' $fragmentRefs'?: { 'RecipeItemFragment': RecipeItemFragment } }
-  )> };
+export type FindAllQuery = { __typename?: 'Query', findAll: Array<{ __typename?: 'Recipe', id: string, title: string, decription?: string | null, creationDate: any }> };
 
 export const RecipeItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"decription"}},{"kind":"Field","name":{"kind":"Name","value":"creationDate"}}]}}]} as unknown as DocumentNode<RecipeItemFragment, unknown>;
 export const FindAllDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindAll"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RecipeOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findAll"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RecipeItem"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"decription"}},{"kind":"Field","name":{"kind":"Name","value":"creationDate"}}]}}]} as unknown as DocumentNode<FindAllQuery, FindAllQueryVariables>;

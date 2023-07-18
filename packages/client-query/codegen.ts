@@ -13,6 +13,9 @@ const config: CodegenConfig = {
       "config":{
         "documentNode":"string",
         "useTypeImports":false
+      },
+      "presetConfig": {
+        "fragmentMasking": false
       }
     }
   }

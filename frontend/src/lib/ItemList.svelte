@@ -2,8 +2,7 @@
 	import { FindAllDocument, SortOrder } from '@ficommerce/client-query';
 	import type {
 		FindAllQuery,
-		FindAllQueryVariables,
-		RecipeItemFragment
+		FindAllQueryVariables
 	} from '@ficommerce/client-query';
 	import { query } from 'svelte-apollo';
 	import Item from './Item.svelte';
@@ -15,7 +14,7 @@
 			}
 		}
 	});
-	$: data = $recipe.data?.findAll as RecipeItemFragment[] ?? []
+	$: data = $recipe.data?.findAll ?? []
 </script>
 
 {#if $recipe.loading}
