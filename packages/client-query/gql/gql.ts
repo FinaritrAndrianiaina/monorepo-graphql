@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "fragment RecipeItem on Recipe {\n  id\n  title\n  decription\n  creationDate\n}": types.RecipeItemFragmentDoc,
-    "query FindAll($orderBy: [RecipeOrderByWithRelationInput!]) {\n  findAll(orderBy: $orderBy) {\n    ...RecipeItem\n  }\n}": types.FindAllDocument,
+    "query FindAll {\n  findAll {\n    ...RecipeItem\n  }\n}": types.FindAllDocument,
 };
 
 /**
@@ -38,7 +38,7 @@ export function graphql(source: "fragment RecipeItem on Recipe {\n  id\n  title\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query FindAll($orderBy: [RecipeOrderByWithRelationInput!]) {\n  findAll(orderBy: $orderBy) {\n    ...RecipeItem\n  }\n}"): (typeof documents)["query FindAll($orderBy: [RecipeOrderByWithRelationInput!]) {\n  findAll(orderBy: $orderBy) {\n    ...RecipeItem\n  }\n}"];
+export function graphql(source: "query FindAll {\n  findAll {\n    ...RecipeItem\n  }\n}"): (typeof documents)["query FindAll {\n  findAll {\n    ...RecipeItem\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

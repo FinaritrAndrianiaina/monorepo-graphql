@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FindAllDocument, SortOrder } from '@ficommerce/client-query';
+	import { FindAllDocument } from '@ficommerce/client-query';
 	import type {
 		FindAllQuery,
 		FindAllQueryVariables
@@ -7,13 +7,7 @@
 	import { query } from 'svelte-apollo';
 	import Item from './Item.svelte';
 
-	const recipe = query<FindAllQuery, FindAllQueryVariables>(FindAllDocument, {
-		variables: {
-			orderBy: {
-				creationDate: SortOrder.Asc
-			}
-		}
-	});
+	const recipe = query<FindAllQuery, FindAllQueryVariables>(FindAllDocument);
 	$: data = $recipe.data?.findAll ?? []
 </script>
 

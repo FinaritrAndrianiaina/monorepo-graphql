@@ -11,14 +11,7 @@ export class RecipeResolver {
     }
 
     @Query(returns => [Recipe])
-    async findAll(@Args() findManyArgs: FindManyRecipeArgs, @Ctx() ctx: ServerContext): Promise<Recipe[]> {
-        return ctx.prisma.recipe.findMany({
-            where: findManyArgs.where,
-            cursor: findManyArgs.cursor,
-            distinct: findManyArgs.distinct,
-            orderBy: findManyArgs.orderBy as any,
-            skip: findManyArgs.skip,
-            take: findManyArgs.take
-        });
+    async findAll(@Ctx() ctx: ServerContext): Promise<Recipe[]> {
+        return ctx.services.recipeService.getAllRecipe();
     }
 }
