@@ -18,14 +18,13 @@ type Query {
 }
 
 type Recipe {
-  creationDate: DateTime!
+  createdAt: DateTime!
   description: String
   id: String!
   title: String!
 }
 
 input RecipeCreateInput {
-  creationDate: DateTime
   description: String
   id: String
   title: String!
