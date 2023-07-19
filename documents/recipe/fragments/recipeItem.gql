@@ -1,6 +1,6 @@
 fragment RecipeItem on Recipe {
     id
     title
-    decription
+    description
     creationDate
 }

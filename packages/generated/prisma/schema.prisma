@@ -13,14 +13,14 @@ generator typegraphql {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url       = env("DATABASE_URL")
 }
 
 model recipe {
   id           String   @default(uuid())
   title        String   @db.VarChar(250)
-  decription   String?  @db.Text
+  description   String?  @db.Text
   creationDate DateTime @default(now())
 
   @@unique([id])
