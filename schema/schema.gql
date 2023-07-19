@@ -12,9 +12,102 @@ type Mutation {
   createOneRecipe(data: RecipeCreateInput!): Recipe!
 }
 
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedUuidFilter {
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedUuidFilter
+  notIn: [String!]
+}
+
+enum NullsOrder {
+  first
+  last
+}
+
+type Profiles {
+  avatarUrl: String
+  createdAt: DateTime
+  fullName: String!
+  id: String!
+  updatedAt: DateTime
+  userName: String!
+  website: String
+}
+
+input ProfilesOrderByWithRelationInput {
+  avatarUrl: SortOrderInput
+  fullName: SortOrder
+  id: SortOrder
+  userName: SortOrder
+  website: SortOrderInput
+}
+
+enum ProfilesScalarFieldEnum {
+  avatarUrl
+  createdAt
+  fullName
+  id
+  updatedAt
+  userName
+  website
+}
+
+input ProfilesWhereInput {
+  AND: [ProfilesWhereInput!]
+  NOT: [ProfilesWhereInput!]
+  OR: [ProfilesWhereInput!]
+  avatarUrl: StringNullableFilter
+  fullName: StringFilter
+  id: UuidFilter
+  userName: StringFilter
+  website: StringNullableFilter
+}
+
+input ProfilesWhereUniqueInput {
+  id: String
+}
+
 type Query {
   findAll: [Recipe!]!
+  findManyProfiles(cursor: ProfilesWhereUniqueInput, distinct: [ProfilesScalarFieldEnum!], orderBy: [ProfilesOrderByWithRelationInput!], skip: Int, take: Int, where: ProfilesWhereInput): [Profiles!]!
   recipe(where: RecipeWhereUniqueInput!): Recipe!
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 type Recipe {
@@ -32,4 +125,56 @@ input RecipeCreateInput {
 
 input RecipeWhereUniqueInput {
   id: String
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input SortOrderInput {
+  nulls: NullsOrder
+  sort: SortOrder!
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input UuidFilter {
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedUuidFilter
+  notIn: [String!]
 }
