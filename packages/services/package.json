@@ -26,12 +26,13 @@
     "preinstall": "pnpm run packages"
   },
   "dependencies": {
+    "@ficommerce/generated": "workspace:*",
     "@types/graphql-fields": "^1.3.5",
     "class-validator": "0.14.0",
-    "@ficommerce/generated": "workspace:*",
     "graphql": "16.7.1",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.22.2",
+    "node-fetch": "^3.3.1",
     "reflect-metadata": "0.1.13",
     "tslib": "^2.6.0",
     "type-graphql": "2.0.0-beta.2",

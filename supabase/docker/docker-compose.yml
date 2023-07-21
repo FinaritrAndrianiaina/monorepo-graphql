@@ -76,6 +76,8 @@ services:
       interval: 5s
       retries: 3
     restart: unless-stopped
+    ports:
+      - 9999:9999
     environment:
       GOTRUE_API_HOST: 0.0.0.0
       GOTRUE_API_PORT: 9999
@@ -147,6 +149,8 @@ services:
       interval: 5s
       retries: 3
     restart: unless-stopped
+    ports:
+      - 4000:4000
     environment:
       PORT: 4000
       DB_HOST: ${POSTGRES_HOST}
