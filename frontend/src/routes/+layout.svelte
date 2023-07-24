@@ -1,10 +1,10 @@
 <script>
 
     import ApolloContext from "$lib/apollo/ApolloContext.svelte";
-	import AuthContext from "$lib/auth/AuthContext.svelte";
+    import AuthContext from "$lib/auth/AuthContext.svelte";
 </script>
-<ApolloContext>
-    <AuthContext>
+<AuthContext>
+    <ApolloContext>
         <slot/>
-    </AuthContext>
-</ApolloContext>
+    </ApolloContext>
+</AuthContext>

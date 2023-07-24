@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
 }
 
@@ -26,19 +26,84 @@ model recipe {
   createdAt   DateTime @default(now()) @db.Timestamp()
 
   @@unique([id])
-
   @@schema("public")
 }
 
 model profiles {
-  id        String   @id @db.Uuid()
-  userName  String   @db.Text 
-  fullName  String   @db.Text 
-  avatarUrl String?  @db.Text
-  website   String?  @db.Text
-  createdAt DateTime? @db.Timestamp() @default(now())
-  updatedAt DateTime? @db.Timestamp() @default(now())
+  id        String    @id @db.Uuid()
+  userName  String    @db.Text
+  fullName  String    @db.Text
+  avatarUrl String?   @db.Text
+  website   String?   @db.Text
+  createdAt DateTime? @default(now()) @db.Timestamp()
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
 
-  
+  userProducts   products[] @relation("UserProducts")
+  customerOrders orders[]   @relation("CustomerOrders")
+
+  @@schema("public")
+}
+
+model products {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String  @db.VarChar(45)
+  price       Decimal @db.Decimal(5, 2)
+  description String  @db.Text
+
+  createdAt DateTime? @default(now()) @db.Timestamp()
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
+
+  profilesId String @db.Uuid()
+
+  owner  profiles      @relation("UserProducts", fields: [profilesId], references: [id])
+  orders order_items[] @relation("ProductItems")
+
+  @@schema("public")
+}
+
+model categories {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String @unique
+  name        String @db.VarChar(45)
+  description String @db.Text
+
+  createdAt DateTime? @default(now()) @db.Timestamp()
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
+
+  @@schema("public")
+}
+
+model order_status {
+  code        String   @id @db.VarChar(45)
+  description String   @db.Text
+  order       orders[]
+
+  @@schema("public")
+}
+
+model orders {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  customer   profiles      @relation("CustomerOrders", fields: [customerId], references: [id])
+  status     order_status  @relation(fields: [statusCode], references: [code])
+  orderItems order_items[] @relation("OrderItems")
+
+  createdAt DateTime? @default(now()) @db.Timestamp()
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
+
+  statusCode String @db.VarChar(45)
+  customerId String @db.Uuid
+
+  @@schema("public")
+}
+
+model order_items {
+  id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  order   orders   @relation("OrderItems", fields: [orderId], references: [id])
+  product products @relation("ProductItems", fields: [productId], references: [id])
+
+  orderId   String @db.Uuid
+  productId String @db.Uuid
+
   @@schema("public")
 }

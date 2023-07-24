@@ -1,12 +1,20 @@
-import { AuthCheckerInterface, ResolverData } from "type-graphql";
-import { ServerContext } from "./context";
+import {AuthCheckerInterface, ResolverData} from "type-graphql";
+import {ServerContext} from "./context";
+import * as console from "console";
 
 export class AuthChecker implements AuthCheckerInterface<ServerContext> {
-  
-    check({ root, args, context, info }: ResolverData<ServerContext>, roles: string[]) {
-     
 
-      return true;
+    async check({root, args, context, info}: ResolverData<ServerContext>, roles: string[]) {
+        if (!context.token) {
+            return false;
+        }
+        try {
+            const decoded = await context.services.authService.decode(context.token);
+            return decoded.aud === 'authenticated';
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
     }
-  }
+}
   

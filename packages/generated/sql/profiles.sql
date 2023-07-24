@@ -1,7 +1,4 @@
-alter table public.profiles
-ADD CONSTRAINT profilesauth_fkey
-FOREIGN KEY (id) 
- references auth.users on delete cascade;
+
 
 -- Set up Row Level Security (RLS)
 -- See https://supabase.com/docs/guides/auth/row-level-security for more details.

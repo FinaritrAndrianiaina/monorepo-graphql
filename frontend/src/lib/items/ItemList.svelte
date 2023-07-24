@@ -1,41 +1,42 @@
 <script lang="ts">
-	import { FindAllDocument } from '@ficommerce/client-query';
-	import type {
-		FindAllQuery,
-		FindAllQueryVariables
-	} from '@ficommerce/client-query';
-	import { query } from 'svelte-apollo';
-	import { login } from '$lib/auth/gotrue';
+    import {FindAllDocument} from '@ficommerce/client-query';
+    import type {
+        FindAllQuery,
+        FindAllQueryVariables
+    } from '@ficommerce/client-query';
+    import {query} from 'svelte-apollo';
+    import {login} from "../auth/gotrue";
 
-	const recipe = query<FindAllQuery, FindAllQueryVariables>(FindAllDocument);
-	
-	let email = '';
-	let password = '';
+    const loginFunc = login();
+    const recipe = query<FindAllQuery, FindAllQueryVariables>(FindAllDocument);
 
-	function onLogin() {
-		const res = login(email,password);
-		console.log(res);
-	}
+    let email = '';
+    let password = '';
 
-	$: data = $recipe.data?.findAll ?? []
+    function onLogin() {
+        const res = loginFunc(email, password);
+        console.log(res);
+    }
+
+    $: data = $recipe.data?.findAll ?? []
 </script>
 
 {#if $recipe.loading}
-	Loading...
+    Loading...
 {:else if $recipe.error}
-	Error: {$recipe.error.message}
+    Error: {$recipe.error.message}
 {:else}
-	<ul>
-		<li>
-			{#each data as item}
-				{item.id}
-			{/each}
-		</li>
-	</ul>
+    <ul>
+        <li>
+            {#each data as item}
+                {item.id}
+            {/each}
+        </li>
+    </ul>
 {/if}
 
 <form>
-	<input type="text" bind:value={email}/>
-	<input type="text" bind:value={password}/>
+    <input type="text" bind:value={email}/>
+    <input type="text" bind:value={password}/>
 </form>
 <button on:click={onLogin}>Login</button>

@@ -1,19 +1,27 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client/core";
-import { setContext } from '@apollo/client/link/context';
-import { env } from "$env/dynamic/public"
+import {ApolloClient, InMemoryCache, createHttpLink} from "@apollo/client/core";
+import {setContext} from '@apollo/client/link/context';
+import {env} from "$env/dynamic/public"
 
 const httpLink = createHttpLink({
     uri: env.PUBLIC_API_URL,
-  });
+});
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext((_, {headers}) => {
     // get the authentication token from local storage if it exists
-    const token = localStorage.getItem('token');
+    let token = localStorage.getItem('supabase.auth.token');
+    let payload: any;
+    try {
+        if (token != null) {
+            payload = JSON.parse(token);
+        }
+    } catch (e) {
+        console.error(e);
+    }
     // return the headers to the context so httpLink can read them
     return {
         headers: {
             ...headers,
-            authorization: token ? `Bearer ${token}` : "",
+            authorization: payload?.access_token ?? "",
         }
     }
 });

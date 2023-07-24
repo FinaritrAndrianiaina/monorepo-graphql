@@ -5,6 +5,7 @@ import {PrismaClient} from "@ficommerce/generated/db"
 import  {createServices} from "@ficommerce/services";
 import {ServerContext} from "@ficommerce/graphql";
 import {generateGQLSchema} from "./schema";
+import * as console from "console";
 
 const PORT = Number(process.env.PORT) || 4000;
 
@@ -20,6 +21,7 @@ async function bootstrap() {
         schema
     });
 
+
     const {url} = await startStandaloneServer<any>(server, {
         listen: {
             port: PORT
@@ -27,7 +29,8 @@ async function bootstrap() {
         context: async ({req, res}) => {
             return {
                 prisma: client,
-                services
+                services,
+                token: req.headers.authorization
             }
         }
     })

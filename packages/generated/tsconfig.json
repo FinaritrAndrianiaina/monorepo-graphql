@@ -12,7 +12,6 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "allowJs": true,
     "outDir": "dist",
     "strict": true,
     "sourceMap": true,
