@@ -3,4 +3,8 @@ schema:
 extensions:
   endpoints:
     local:
-      url: " http://localhost:4000/"
+      url: "http://localhost:3001/"
+    authenticated local:
+      url: "http://localhost:3001/"
+      headers:
+        authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNjkwMjE1MTgzLCJzdWIiOiI2NmY5MjNjYy0wNTgxLTRhZTAtYWQ3MC05OGIyNzQzOGQ2MjkiLCJlbWFpbCI6ImZpbmFyaXRyYW5kcmlhbmlhaW5hQGdtYWlsLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnt9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNjkwMjExNTgzfV0sInNlc3Npb25faWQiOiIzOTRmMjRiYy02NjlkLTQwMTEtOWI1MC0zMTY1OWI3NDZkMjQifQ.RSDutmSsf5718aj2vS3oi8l160lrWmDaihIDG2dLfwc"

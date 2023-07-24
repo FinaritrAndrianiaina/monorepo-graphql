@@ -1,0 +1,10 @@
+fragment ProductsFullIem on Products {
+    id
+    price
+    createdAt
+    name
+    description
+    owner {
+        email
+    }
+}

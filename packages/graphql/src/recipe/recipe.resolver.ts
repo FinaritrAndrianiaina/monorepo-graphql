@@ -1,6 +1,7 @@
 import {Args, Authorized, Ctx, Query, Resolver} from "type-graphql";
 import {FindUniqueRecipeArgs, Recipe} from "@ficommerce/generated/gql";
 import {ServerContext} from "../context";
+import * as console from "console";
 
 @Resolver(Recipe)
 export class RecipeResolver {
@@ -13,6 +14,7 @@ export class RecipeResolver {
     @Authorized()
     @Query(returns => [Recipe])
     async findAll(@Ctx() ctx: ServerContext): Promise<Recipe[]> {
+        console.log(ctx.user);
         return ctx.services.recipeService.getAllRecipe();
     }
 }

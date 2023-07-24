@@ -14,6 +14,9 @@ const config = {
         adapter: adapter(),
         env: {
             dir: '../'
+        },
+        alias: {
+            "$components": "src/components"
         }
     }
 };

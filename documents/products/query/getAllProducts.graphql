@@ -1,0 +1,5 @@
+query GetManyProducts($where: ProductsWhereInput) {
+    getManyProducts(where: $where) {
+        ...ProductsFullIem
+    }
+}

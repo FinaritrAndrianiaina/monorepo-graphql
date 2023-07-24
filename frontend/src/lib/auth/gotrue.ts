@@ -12,7 +12,7 @@ export function setAuth(auth: GoTrueClient) {
 export function getAuth() {
     const authClient = getContext<GoTrueClient>(AUTH_SYMBOL);
     if (!authClient) {
-        throw new Error("ApolloClient has not been set yet, use setAuth(...) to define it");
+        throw new Error("Auth has not been set yet, use setAuth(...) to define it");
     }
     return authClient;
 }
@@ -23,4 +23,11 @@ export function login() {
         email,
         password
     })
+}
+
+export function logout(callback: (value: any) => any) {
+    const auth = getAuth();
+    return () => {
+        auth.signOut().then(callback)
+    };
 }

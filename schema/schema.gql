@@ -3,13 +3,47 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreateProductInput {
+  description: String!
+  name: String!
+  price: Decimal!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
 
+"""
+GraphQL Scalar representing the Prisma.Decimal type, based on Decimal.js library.
+"""
+scalar Decimal
+
+input DecimalFilter {
+  equals: Decimal
+  gt: Decimal
+  gte: Decimal
+  in: [Decimal!]
+  lt: Decimal
+  lte: Decimal
+  not: NestedDecimalFilter
+  notIn: [Decimal!]
+}
+
 type Mutation {
+  createOneProducts(data: CreateProductInput!): Products!
   createOneRecipe(data: RecipeCreateInput!): Recipe!
+}
+
+input NestedDecimalFilter {
+  equals: Decimal
+  gt: Decimal
+  gte: Decimal
+  in: [Decimal!]
+  lt: Decimal
+  lte: Decimal
+  not: NestedDecimalFilter
+  notIn: [Decimal!]
 }
 
 input NestedStringFilter {
@@ -56,9 +90,141 @@ enum NullsOrder {
   last
 }
 
+input Order_itemsListRelationFilter {
+  every: Order_itemsWhereInput
+  none: Order_itemsWhereInput
+  some: Order_itemsWhereInput
+}
+
+input Order_itemsOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input Order_itemsWhereInput {
+  AND: [Order_itemsWhereInput!]
+  NOT: [Order_itemsWhereInput!]
+  OR: [Order_itemsWhereInput!]
+  id: UuidFilter
+  order: OrdersRelationFilter
+  orderId: UuidFilter
+  product: ProductsRelationFilter
+  productId: UuidFilter
+}
+
+input Order_statusRelationFilter {
+  is: Order_statusWhereInput
+  isNot: Order_statusWhereInput
+}
+
+input Order_statusWhereInput {
+  AND: [Order_statusWhereInput!]
+  NOT: [Order_statusWhereInput!]
+  OR: [Order_statusWhereInput!]
+  code: StringFilter
+  description: StringFilter
+  order: OrdersListRelationFilter
+}
+
+input OrdersListRelationFilter {
+  every: OrdersWhereInput
+  none: OrdersWhereInput
+  some: OrdersWhereInput
+}
+
+input OrdersOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input OrdersRelationFilter {
+  is: OrdersWhereInput
+  isNot: OrdersWhereInput
+}
+
+input OrdersWhereInput {
+  AND: [OrdersWhereInput!]
+  NOT: [OrdersWhereInput!]
+  OR: [OrdersWhereInput!]
+  customer: ProfilesRelationFilter
+  customerId: UuidFilter
+  id: UuidFilter
+  orderItems: Order_itemsListRelationFilter
+  status: Order_statusRelationFilter
+  statusCode: StringFilter
+}
+
+type Products {
+  _count: ProductsCount
+  createdAt: DateTime
+  description: String!
+  id: String!
+  name: String!
+  owner: Profiles!
+  price: Decimal!
+  profilesId: String!
+  updatedAt: DateTime
+}
+
+type ProductsCount {
+  orders(where: Order_itemsWhereInput): Int!
+}
+
+input ProductsListRelationFilter {
+  every: ProductsWhereInput
+  none: ProductsWhereInput
+  some: ProductsWhereInput
+}
+
+input ProductsOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ProductsOrderByWithRelationInput {
+  description: SortOrder
+  id: SortOrder
+  name: SortOrder
+  orders: Order_itemsOrderByRelationAggregateInput
+  owner: ProfilesOrderByWithRelationInput
+  price: SortOrder
+  profilesId: SortOrder
+}
+
+input ProductsRelationFilter {
+  is: ProductsWhereInput
+  isNot: ProductsWhereInput
+}
+
+enum ProductsScalarFieldEnum {
+  createdAt
+  description
+  id
+  name
+  price
+  profilesId
+  updatedAt
+}
+
+input ProductsWhereInput {
+  AND: [ProductsWhereInput!]
+  NOT: [ProductsWhereInput!]
+  OR: [ProductsWhereInput!]
+  description: StringFilter
+  id: UuidFilter
+  name: StringFilter
+  orders: Order_itemsListRelationFilter
+  owner: ProfilesRelationFilter
+  price: DecimalFilter
+  profilesId: UuidFilter
+}
+
+input ProductsWhereUniqueInput {
+  id: String
+}
+
 type Profiles {
+  _count: ProfilesCount
   avatarUrl: String
   createdAt: DateTime
+  email: String!
   fullName: String!
   id: String!
   updatedAt: DateTime
@@ -66,17 +232,31 @@ type Profiles {
   website: String
 }
 
+type ProfilesCount {
+  customerOrders(where: OrdersWhereInput): Int!
+  userProducts(where: ProductsWhereInput): Int!
+}
+
 input ProfilesOrderByWithRelationInput {
   avatarUrl: SortOrderInput
+  customerOrders: OrdersOrderByRelationAggregateInput
+  email: SortOrder
   fullName: SortOrder
   id: SortOrder
   userName: SortOrder
+  userProducts: ProductsOrderByRelationAggregateInput
   website: SortOrderInput
+}
+
+input ProfilesRelationFilter {
+  is: ProfilesWhereInput
+  isNot: ProfilesWhereInput
 }
 
 enum ProfilesScalarFieldEnum {
   avatarUrl
   createdAt
+  email
   fullName
   id
   updatedAt
@@ -89,19 +269,24 @@ input ProfilesWhereInput {
   NOT: [ProfilesWhereInput!]
   OR: [ProfilesWhereInput!]
   avatarUrl: StringNullableFilter
+  customerOrders: OrdersListRelationFilter
+  email: StringFilter
   fullName: StringFilter
   id: UuidFilter
   userName: StringFilter
+  userProducts: ProductsListRelationFilter
   website: StringNullableFilter
 }
 
 input ProfilesWhereUniqueInput {
+  email: String
   id: String
 }
 
 type Query {
   findAll: [Recipe!]!
   findManyProfiles(cursor: ProfilesWhereUniqueInput, distinct: [ProfilesScalarFieldEnum!], orderBy: [ProfilesOrderByWithRelationInput!], skip: Int, take: Int, where: ProfilesWhereInput): [Profiles!]!
+  getManyProducts(cursor: ProductsWhereUniqueInput, distinct: [ProductsScalarFieldEnum!], orderBy: [ProductsOrderByWithRelationInput!], skip: Int, take: Int, where: ProductsWhereInput): [Products!]!
   recipe(where: RecipeWhereUniqueInput!): Recipe!
 }
 

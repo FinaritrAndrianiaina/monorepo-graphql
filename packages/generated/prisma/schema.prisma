@@ -31,6 +31,7 @@ model recipe {
 
 model profiles {
   id        String    @id @db.Uuid()
+  email     String    @unique @db.VarChar(50)
   userName  String    @db.Text
   fullName  String    @db.Text
   avatarUrl String?   @db.Text

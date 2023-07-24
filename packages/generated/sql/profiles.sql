@@ -12,9 +12,10 @@ update using (auth.uid() = id);
 -- This trigger automatically creates a profile entry when a new user signs up via Supabase Auth.
 -- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
 create function public.handle_new_user() returns trigger as $$ begin
-insert into public.profiles ("id", "fullName", "userName","avatarUrl")
+insert into public.profiles ("id","email", "fullName", "userName","avatarUrl")
 values (
         new.id,
+        new.email,
         new.email,
         new.email,
         new.raw_user_meta_data->>'avatar_url'

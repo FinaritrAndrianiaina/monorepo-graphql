@@ -1,1 +1,1 @@
-export const index = '';
+export * from "./products"

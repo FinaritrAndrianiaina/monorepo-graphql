@@ -10,7 +10,8 @@ export class AuthChecker implements AuthCheckerInterface<ServerContext> {
         }
         try {
             const decoded = await context.services.authService.decode(context.token);
-            return decoded.aud === 'authenticated';
+            context.user = await context.prisma.profiles.findUnique({where: {email: decoded.email}});
+            return Boolean(context.user) && decoded.aud === 'authenticated';
         } catch (e) {
             console.error(e);
             return false;
