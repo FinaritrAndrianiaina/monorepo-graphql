@@ -17,11 +17,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
-    "paths": {
-      "services/*": [
-        "./services/*"
-      ]
-    }
   },
   "include": [
     "**/*.ts",

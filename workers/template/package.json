@@ -1,0 +1,33 @@
+{
+  "name": "workers-template",
+  "version": "1.0.0",
+  "description": "BullMQ Example for Typescript",
+  "license": "MIT",
+  "bin": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node './dist/index.js'",
+    "dev": "dotenv -e ../.env.local -- ts-node-dev --respawn --transpile-only src/index.ts",
+    "test": "ts-mocha ./tests/**/*.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taskforcesh/bullmq-typescript.git"
+  },
+  "keywords": [
+    "bullmq"
+  ],
+  "author": "Manuel Astudillo",
+  "dependencies": {
+    "bullmq": "1.85.3",
+    "@ficommerce/services": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "20.4.1",
+    "chai": "4.2.0",
+    "mocha": "6.0.1",
+    "ts-mocha": "^10.0.0",
+    "ts-node-dev": "2.0.0",
+    "typescript": "5.1.6"
+  }
+}

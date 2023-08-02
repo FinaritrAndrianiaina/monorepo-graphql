@@ -1,4 +1,4 @@
-fragment ProductsFullIem on Products {
+fragment ProductsFullItem on Products {
     id
     price
     createdAt

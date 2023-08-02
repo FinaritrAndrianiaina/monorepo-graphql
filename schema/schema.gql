@@ -161,6 +161,7 @@ type Products {
   owner: Profiles!
   price: Decimal!
   profilesId: String!
+  stripeProductId: String
   updatedAt: DateTime
 }
 
@@ -186,6 +187,7 @@ input ProductsOrderByWithRelationInput {
   owner: ProfilesOrderByWithRelationInput
   price: SortOrder
   profilesId: SortOrder
+  stripeProductId: SortOrderInput
 }
 
 input ProductsRelationFilter {
@@ -200,6 +202,7 @@ enum ProductsScalarFieldEnum {
   name
   price
   profilesId
+  stripeProductId
   updatedAt
 }
 
@@ -214,6 +217,7 @@ input ProductsWhereInput {
   owner: ProfilesRelationFilter
   price: DecimalFilter
   profilesId: UuidFilter
+  stripeProductId: StringNullableFilter
 }
 
 input ProductsWhereUniqueInput {

@@ -54,7 +54,8 @@
     "build:esm2015": "tsc --project  tsconfig.esm2015.json",
     "packages": "npm run prisma:generate && npm-run-all \" build:!(dev) \"",
     "start:dev": "npm run build:dev",
-    "prisma:migrate": "dotenv -e ../../.env.local prisma migrate dev --create-only",
+    "prisma:migrate:create": "dotenv -e ../../.env.local prisma migrate dev --create-only",
+    "prisma:migrate": "dotenv -e ../../.env.local prisma migrate dev",
     "prisma:reset": "dotenv -e ../../.env.local prisma migrate reset",
     "prisma:generate": "prisma generate",
     "preinstall": "pnpm run packages"

@@ -54,7 +54,8 @@ model products {
   createdAt DateTime? @default(now()) @db.Timestamp()
   updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
 
-  profilesId String @db.Uuid()
+  stripeProductId String?
+  profilesId      String  @db.Uuid()
 
   owner  profiles      @relation("UserProducts", fields: [profilesId], references: [id])
   orders order_items[] @relation("ProductItems")
