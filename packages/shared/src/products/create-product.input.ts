@@ -1,9 +1,9 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
+import {Prisma} from "@ficommerce/generated/db";
 import {
     DecimalJSScalar,
-} from "../../gql";
+} from "@ficommerce/generated/gql";
 
 @TypeGraphQL.InputType("CreateProductInput", {})
 export class CreateProductInput {

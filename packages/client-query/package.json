@@ -17,18 +17,11 @@
       },
       "import": "./dist/esm5/gql/graphql.js",
       "require": "./dist/cjs/gql/graphql.js"
-    },
-    "./fragment-masking": {
-      "types": {
-        "default": "./dist/types/gql/fragment-masking.d.ts"
-      },
-      "import": "./dist/esm5/gql/fragment-masking.js",
-      "require": "./dist/cjs/gql/fragment-masking.js"
     }
   },
   "scripts": {
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "build": "npm run build:cjs && npm run build:types",
+    "build": "npm run packages",
     "build:dev": "npm-run-all --parallel build:*:dev ",
     "build:cjs": "tsc --project  tsconfig.cjs.json",
     "build:cjs:dev": "tsc -w --project  tsconfig.cjs.json",

@@ -1,5 +1,5 @@
 {
-  "name": "@ficommerce/graphql",
+  "name": "@ficommerce/shared",
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
@@ -9,33 +9,41 @@
   "typings": "dist/types/index.d.ts",
   "files": [
     "dist/index.js",
-    "dist/**/*"
+    "dist/**/*",
+    "prisma/schema.prisma"
   ],
+  "exports": {
+    ".": {
+      "types": {
+        "default": "./dist/types/index.d.ts"
+      },
+      "import": "./dist/esm5/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
   "scripts": {
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "build": "npm run packages",
     "build:dev": "npm-run-all --parallel build:*:dev ",
-    "build:cjs": "tsc --project  tsconfig.cjs.json",
-    "build:cjs:dev": "tsc -w --project  tsconfig.cjs.json",
+    "build:cjs": "tsc --project   tsconfig.cjs.json",
+    "build:cjs:dev": "tsc -w  --incremental --project   tsconfig.cjs.json",
     "build:types": "tsc --project  tsconfig.types.json",
-    "build:types:dev": "tsc -w --project  tsconfig.types.json",
-    "build:esm5": "tsc --project  tsconfig.esm5.json",
+    "build:types:dev": "tsc -w --project   tsconfig.types.json",
+    "build:esm5": "tsc  --incremental --project   tsconfig.esm5.json",
     "build:esm2015": "tsc --project  tsconfig.esm2015.json",
     "packages": "npm-run-all \" build:!(dev) \"",
     "start:dev": "npm run build:dev",
+    "prisma:generate": "prisma generate",
     "preinstall": "pnpm run packages"
   },
   "dependencies": {
     "@ficommerce/generated": "workspace:*",
-    "@ficommerce/services": "workspace:*",
-    "@ficommerce/shared": "workspace:*",
+    "@prisma/client": "4.15.0",
     "@types/graphql-fields": "^1.3.5",
-    "bcrypt": "^5.1.0",
     "class-validator": "0.14.0",
     "graphql": "16.7.1",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.22.2",
-    "jsonwebtoken": "^9.0.1",
     "reflect-metadata": "0.1.13",
     "tslib": "^2.6.0",
     "type-graphql": "2.0.0-beta.2",

@@ -1,5 +1,5 @@
 {
-  "name": "workers-stripe",
+  "name": "workers-embeddings",
   "version": "1.0.0",
   "description": "BullMQ Example for Typescript",
   "license": "MIT",

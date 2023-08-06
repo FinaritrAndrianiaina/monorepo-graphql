@@ -31,6 +31,7 @@ input DecimalFilter {
 }
 
 type Mutation {
+  addProductToUserLiked(productId: String!): Products!
   createOneProducts(data: CreateProductInput!): Products!
   createOneRecipe(data: RecipeCreateInput!): Recipe!
 }
@@ -231,6 +232,7 @@ type Profiles {
   email: String!
   fullName: String!
   id: String!
+  likedProducts: [Products!]!
   updatedAt: DateTime
   userName: String!
   website: String
@@ -288,6 +290,7 @@ input ProfilesWhereUniqueInput {
 }
 
 type Query {
+  currentUser: Profiles!
   findAll: [Recipe!]!
   findManyProfiles(cursor: ProfilesWhereUniqueInput, distinct: [ProfilesScalarFieldEnum!], orderBy: [ProfilesOrderByWithRelationInput!], skip: Int, take: Int, where: ProfilesWhereInput): [Profiles!]!
   getManyProducts(cursor: ProductsWhereUniqueInput, distinct: [ProductsScalarFieldEnum!], orderBy: [ProductsOrderByWithRelationInput!], skip: Int, take: Int, where: ProductsWhereInput): [Products!]!

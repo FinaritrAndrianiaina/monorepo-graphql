@@ -1,0 +1,8 @@
+query GetCurrentUser {
+    currentUser {
+        ...UserUsefulDetails
+        likedProducts {
+            name
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import {Args, Authorized, Ctx, FieldResolver, Mutation, Query, Resolver, Root} from "type-graphql";
 import {FindManyProductsArgs, Products, Profiles} from "@ficommerce/generated/gql";
-import {CreateOneProductsArgs} from "@ficommerce/generated/custom"
+import {CreateOneProductsArgs, LikeProductArgs} from "@ficommerce/shared";
 import {ServerContext} from "../context";
 
 @Resolver(Products)
@@ -20,6 +20,12 @@ export class ProductsResolver {
     @Mutation(returns => Products)
     async createOneProducts(@Args() createProductsArgs: CreateOneProductsArgs, @Ctx() ctx: ServerContext) {
         return ctx.services.productService.createProducts(createProductsArgs.data, ctx.user!);
+    }
+
+    @Authorized()
+    @Mutation(returns => Products)
+    async addProductToUserLiked(@Args() productToLikeArgs: LikeProductArgs, @Ctx() ctx: ServerContext) {
+        return ctx.services.productService.likeProduct(productToLikeArgs.productId, ctx.user!);
     }
 
     @FieldResolver(returns => Profiles)

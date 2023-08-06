@@ -27,13 +27,6 @@
       "import": "./dist/esm5/gql/index.js",
       "require": "./dist/cjs/gql/index.js"
     },
-    "./custom": {
-      "types": {
-        "default": "./dist/types/custom/index.d.ts"
-      },
-      "import": "./dist/esm5/custom/index.js",
-      "require": "./dist/cjs/custom/index.js"
-    },
     "./db": {
       "types": {
         "default": "./dist/types/db.d.ts"

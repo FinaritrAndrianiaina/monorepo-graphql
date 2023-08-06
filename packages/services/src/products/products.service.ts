@@ -1,5 +1,5 @@
 import {PrismaClient, profiles as Profiles} from "@ficommerce/generated/db";
-import {CreateProductInput} from "@ficommerce/generated/custom";
+import {CreateProductInput} from "@ficommerce/shared";
 import QueueService from "../worker/queue.service";
 import {STRIPE_QUEUE} from "../constants";
 import * as console from "console";
@@ -22,9 +22,22 @@ export class ProductsService {
             }
         })
         this.stripeQueueService.add(STRIPE_QUEUE.REQUEST_PRODUCT_CREATE, savedProducts)
-            .then((result) => console.log(result.returnvalue))
-            .catch(console.error);
+            .then(console.log)
+            .catch(console.error)
         return savedProducts;
+    }
+
+    likeProduct(productId: string, user: Profiles) {
+        return this.prisma.products.update({
+            where: {id: productId},
+            data: {
+                profilesLiked: {
+                    connect: {
+                        id: user.id
+                    }
+                }
+            }
+        })
     }
 }
 

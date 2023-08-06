@@ -39,6 +39,8 @@ model profiles {
   createdAt DateTime? @default(now()) @db.Timestamp()
   updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
 
+  likedProducts products[] @relation("ProfilesProductLiked")
+
   userProducts   products[] @relation("UserProducts")
   customerOrders orders[]   @relation("CustomerOrders")
 
@@ -57,8 +59,9 @@ model products {
   stripeProductId String?
   profilesId      String  @db.Uuid()
 
-  owner  profiles      @relation("UserProducts", fields: [profilesId], references: [id])
-  orders order_items[] @relation("ProductItems")
+  owner         profiles      @relation("UserProducts", fields: [profilesId], references: [id])
+  orders        order_items[] @relation("ProductItems")
+  profilesLiked profiles[]    @relation("ProfilesProductLiked")
 
   @@schema("public")
 }

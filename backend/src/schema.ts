@@ -1,12 +1,12 @@
 import {buildSchema} from "type-graphql";
-import {RecipeResolver, AuthChecker, ProductsResolver} from "@ficommerce/graphql";
+import {RecipeResolver, AuthChecker, ProductsResolver, ProfilesResolver} from "@ficommerce/graphql";
 import {CreateOneRecipeResolver, FindManyProfilesResolver} from "@ficommerce/generated/gql";
 import {GraphQLSchema} from "graphql/type";
 import * as path from "path";
 
 export async function generateGQLSchema(): Promise<GraphQLSchema> {
     return await buildSchema({
-        resolvers: [RecipeResolver, CreateOneRecipeResolver, FindManyProfilesResolver, ProductsResolver],
+        resolvers: [RecipeResolver, CreateOneRecipeResolver, FindManyProfilesResolver, ProductsResolver, ProfilesResolver],
         emitSchemaFile: path.resolve(__dirname, "../../schema", "schema.gql"),
         authChecker: AuthChecker,
         authMode: "error"
