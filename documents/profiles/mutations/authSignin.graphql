@@ -1,0 +1,8 @@
+mutation AuthSignin($login: String!, $password: String!) {
+    signUp(login: $login, password: $password) {
+        access_token
+        profile {
+            userName
+        }
+    }
+}

@@ -4,9 +4,9 @@ import AuthService, {createAuthService} from "./auth/auth.service";
 import {createProductsService, ProductsService} from "./products";
 import {createStripeService, StripeService} from "./stripe/stripe.service";
 import QueueService, {createQueueService} from "./worker/queue.service";
-import {STRIPE_QUEUE} from "./constants";
+import {TRANSFORMER_QUEUE} from "./constants";
 import {createTransformerService, TransformerService} from "./transformers/transformer.service";
-import {ProductFeaturesService} from "./recommendations";
+import {ProductFeaturesService, ProfileFeaturesService} from "./recommendations";
 import {createProfileService, ProfileService} from "./profiles";
 
 export * from "./stripe/stripe.service";
@@ -23,21 +23,24 @@ export default interface Services {
     stripeQueueService: QueueService,
     transformerService: TransformerService,
     productFeatures: ProductFeaturesService,
-    profileServices: ProfileService
+    profileServices: ProfileService,
+    profileFeatures: ProfileFeaturesService
 }
 
 export function createServices(prisma: PrismaClient): Services {
     const stripeService = createStripeService();
-    const stripeQueueService = createQueueService(STRIPE_QUEUE.NAME);
+    const transformerQueueService = createQueueService(TRANSFORMER_QUEUE.NAME);
     const transformerService = createTransformerService();
+    let profileServices = createProfileService(prisma,transformerQueueService);
     return {
         transformerService,
-        stripeQueueService,
+        stripeQueueService: transformerQueueService,
         recipeService: createRecipeService(prisma),
-        profileServices: createProfileService(prisma),
-        authService: createAuthService(),
+        profileServices,
+        authService: createAuthService(prisma, profileServices),
         productFeatures: ProductFeaturesService.createInstance(prisma, transformerService),
-        productService: createProductsService(prisma, stripeQueueService),
+        profileFeatures: ProfileFeaturesService.createInstance(prisma, transformerService),
+        productService: createProductsService(prisma, transformerQueueService),
         stripeService
     }
 }

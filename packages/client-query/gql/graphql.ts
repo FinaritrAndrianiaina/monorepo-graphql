@@ -20,6 +20,15 @@ export type Scalars = {
   Decimal: { input: any; output: any; }
 };
 
+export type AuthorizationToken = {
+  __typename?: 'AuthorizationToken';
+  access_token?: Maybe<Scalars['String']['output']>;
+  expires_in?: Maybe<Scalars['Float']['output']>;
+  profile?: Maybe<Profiles>;
+  refresh_token?: Maybe<Scalars['String']['output']>;
+  token_type?: Maybe<Scalars['String']['output']>;
+};
+
 export type CreateProductInput = {
   description: Scalars['String']['input'];
   name: Scalars['String']['input'];
@@ -42,6 +51,8 @@ export type Mutation = {
   addProductToUserLiked: Products;
   createOneProducts: Products;
   createOneRecipe: Recipe;
+  signIn: AuthorizationToken;
+  signUp: AuthorizationToken;
 };
 
 
@@ -57,6 +68,18 @@ export type MutationCreateOneProductsArgs = {
 
 export type MutationCreateOneRecipeArgs = {
   data: RecipeCreateInput;
+};
+
+
+export type MutationSignInArgs = {
+  login: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+
+export type MutationSignUpArgs = {
+  login: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type NestedDecimalFilter = {
@@ -193,11 +216,17 @@ export type Products = {
 export type ProductsCount = {
   __typename?: 'ProductsCount';
   orders: Scalars['Int']['output'];
+  profilesLiked: Scalars['Int']['output'];
 };
 
 
 export type ProductsCountOrdersArgs = {
   where?: InputMaybe<Order_ItemsWhereInput>;
+};
+
+
+export type ProductsCountProfilesLikedArgs = {
+  where?: InputMaybe<ProfilesWhereInput>;
 };
 
 export type ProductsListRelationFilter = {
@@ -218,6 +247,7 @@ export type ProductsOrderByWithRelationInput = {
   owner?: InputMaybe<ProfilesOrderByWithRelationInput>;
   price?: InputMaybe<SortOrder>;
   profilesId?: InputMaybe<SortOrder>;
+  profilesLiked?: InputMaybe<ProfilesOrderByRelationAggregateInput>;
   stripeProductId?: InputMaybe<SortOrderInput>;
 };
 
@@ -248,6 +278,7 @@ export type ProductsWhereInput = {
   owner?: InputMaybe<ProfilesRelationFilter>;
   price?: InputMaybe<DecimalFilter>;
   profilesId?: InputMaybe<UuidFilter>;
+  profilesLiked?: InputMaybe<ProfilesListRelationFilter>;
   stripeProductId?: InputMaybe<StringNullableFilter>;
 };
 
@@ -272,6 +303,7 @@ export type Profiles = {
 export type ProfilesCount = {
   __typename?: 'ProfilesCount';
   customerOrders: Scalars['Int']['output'];
+  likedProducts: Scalars['Int']['output'];
   userProducts: Scalars['Int']['output'];
 };
 
@@ -281,8 +313,23 @@ export type ProfilesCountCustomerOrdersArgs = {
 };
 
 
+export type ProfilesCountLikedProductsArgs = {
+  where?: InputMaybe<ProductsWhereInput>;
+};
+
+
 export type ProfilesCountUserProductsArgs = {
   where?: InputMaybe<ProductsWhereInput>;
+};
+
+export type ProfilesListRelationFilter = {
+  every?: InputMaybe<ProfilesWhereInput>;
+  none?: InputMaybe<ProfilesWhereInput>;
+  some?: InputMaybe<ProfilesWhereInput>;
+};
+
+export type ProfilesOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type ProfilesOrderByWithRelationInput = {
@@ -291,6 +338,7 @@ export type ProfilesOrderByWithRelationInput = {
   email?: InputMaybe<SortOrder>;
   fullName?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  likedProducts?: InputMaybe<ProductsOrderByRelationAggregateInput>;
   userName?: InputMaybe<SortOrder>;
   userProducts?: InputMaybe<ProductsOrderByRelationAggregateInput>;
   website?: InputMaybe<SortOrderInput>;
@@ -321,6 +369,7 @@ export type ProfilesWhereInput = {
   email?: InputMaybe<StringFilter>;
   fullName?: InputMaybe<StringFilter>;
   id?: InputMaybe<UuidFilter>;
+  likedProducts?: InputMaybe<ProductsListRelationFilter>;
   userName?: InputMaybe<StringFilter>;
   userProducts?: InputMaybe<ProductsListRelationFilter>;
   website?: InputMaybe<StringNullableFilter>;
@@ -465,6 +514,14 @@ export type GetManyProductsQuery = { __typename?: 'Query', getManyProducts: Arra
 
 export type UserUsefulDetailsFragment = { __typename?: 'Profiles', email: string, fullName: string, userName: string, avatarUrl?: string | null };
 
+export type AuthSigninMutationVariables = Exact<{
+  login: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type AuthSigninMutation = { __typename?: 'Mutation', signUp: { __typename?: 'AuthorizationToken', access_token?: string | null, profile?: { __typename?: 'Profiles', userName: string } | null } };
+
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -483,5 +540,6 @@ export const RecipeItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"
 export const CreateProductsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateProducts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateProductInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneProducts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductsFullItem"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductsFullItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Products"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"owner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<CreateProductsMutation, CreateProductsMutationVariables>;
 export const LikeProductDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LikeProduct"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addProductToUserLiked"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"productId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductsFullItem"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductsFullItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Products"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"owner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<LikeProductMutation, LikeProductMutationVariables>;
 export const GetManyProductsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetManyProducts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductsWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getManyProducts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductsFullItem"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductsFullItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Products"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"owner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<GetManyProductsQuery, GetManyProductsQueryVariables>;
+export const AuthSigninDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AuthSignin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"login"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signUp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"login"},"value":{"kind":"Variable","name":{"kind":"Name","value":"login"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"access_token"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userName"}}]}}]}}]}}]} as unknown as DocumentNode<AuthSigninMutation, AuthSigninMutationVariables>;
 export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"currentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserUsefulDetails"}},{"kind":"Field","name":{"kind":"Name","value":"likedProducts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserUsefulDetails"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Profiles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"userName"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
 export const FindAllDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindAll"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findAll"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RecipeItem"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<FindAllQuery, FindAllQueryVariables>;

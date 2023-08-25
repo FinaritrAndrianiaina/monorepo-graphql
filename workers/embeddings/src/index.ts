@@ -1,5 +1,5 @@
 import {Worker} from "bullmq";
-import {WORKER_HOST, WORKER_PORT, WORKER_PASS, STRIPE_QUEUE} from "@ficommerce/services/constants";
+import {WORKER_HOST, WORKER_PORT, WORKER_PASS, TRANSFORMER_QUEUE} from "@ficommerce/services/constants";
 import {getWorkers} from "./workers";
 import {createServices, createTransformerService} from "@ficommerce/services";
 import {PrismaClient} from "@ficommerce/generated/db";
@@ -16,7 +16,7 @@ async function main() {
     const services = createServices(prisma);
     const token = randomUUID()
     const tService = await createTransformerService();
-    const myQueue = new Worker(STRIPE_QUEUE.NAME, getWorkers(services, token), {
+    const myQueue = new Worker(TRANSFORMER_QUEUE.NAME, getWorkers(services, token), {
         connection,
     });
 

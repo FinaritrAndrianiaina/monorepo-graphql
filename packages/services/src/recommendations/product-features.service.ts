@@ -9,7 +9,6 @@ export class ProductFeaturesService {
 
     async insertProductIntoProductFeatures(product: Products) {
         const uniqueName = this.transformerService.getStringEmbeddingForProduct(product);
-        console.log('getting embeddings', uniqueName);
         const embeddings = await this.transformerService.embeddingsFromString(uniqueName);
         const script = this.createRawCommandProductFeatures(product, embeddings, uniqueName, {
             name: product.name,
@@ -26,7 +25,7 @@ export class ProductFeaturesService {
                 {
                     '"productId"': product.id,
                     '"uniqueName"': uniqueName,
-                    '"vector"': `[${embeddings.join(',')}]`,
+                    '"vector"': this.transformerService.createVectorString(embeddings),
                     '"metadata"': JSON.stringify(metadata)
                 }
             ]).toString();

@@ -1,5 +1,5 @@
 import axios, {AxiosError} from "axios";
-import {products as Products} from "@ficommerce/generated/db"
+import {products as Products, profiles as Profiles} from "@ficommerce/generated/db"
 import * as console from "console";
 
 export class TransformerService {
@@ -8,22 +8,17 @@ export class TransformerService {
     }
 
     async embeddingsFromString(input: string) {
-        try {
-            console.log('waiting for hugging-face to return')
-            const axiosResponse = await axios.post(
-                "https://api-inference.huggingface.co/pipeline/feature-extraction/sentence-transformers/all-MiniLM-L6-v2",
-                {
-                    inputs: [input]
-                },
-                {
-                    headers: {Authorization: "Bearer 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"}
-                }
-            )
-            return axiosResponse?.data?.at(0) ?? [];
-        } catch (e) {
-            console.error(e)
-            return Array(384).fill(0);
-        }
+        console.log('waiting for hugging-face to return')
+        const axiosResponse = await axios.post(
+            "https://api-inference.huggingface.co/pipeline/feature-extraction/sentence-transformers/all-MiniLM-L6-v2",
+            {
+                inputs: [input]
+            },
+            {
+                headers: {Authorization: "Bearer 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"}
+            }
+        )
+        return axiosResponse?.data?.at(0) ?? [];
     }
 
     getStringEmbeddingForProduct(product: Products) {
@@ -31,6 +26,13 @@ export class TransformerService {
     }
 
 
+    getStringEmbeddingForProfiles(profiles: Profiles) {
+        return `${profiles.email} ${profiles.id}`;
+    }
+
+    createVectorString(vector: Array<number>) {
+        return `[${vector.join(',')}]`
+    }
 }
 
 

@@ -18,6 +18,7 @@ const documents = {
     "mutation LikeProduct($productId: String!) {\n  addProductToUserLiked(productId: $productId) {\n    ...ProductsFullItem\n  }\n}": types.LikeProductDocument,
     "query GetManyProducts($where: ProductsWhereInput) {\n  getManyProducts(where: $where) {\n    ...ProductsFullItem\n  }\n}": types.GetManyProductsDocument,
     "fragment UserUsefulDetails on Profiles {\n  email\n  fullName\n  userName\n  avatarUrl\n}": types.UserUsefulDetailsFragmentDoc,
+    "mutation AuthSignin($login: String!, $password: String!) {\n  signUp(login: $login, password: $password) {\n    access_token\n    profile {\n      userName\n    }\n  }\n}": types.AuthSigninDocument,
     "query GetCurrentUser {\n  currentUser {\n    ...UserUsefulDetails\n    likedProducts {\n      name\n    }\n  }\n}": types.GetCurrentUserDocument,
     "fragment RecipeItem on Recipe {\n  id\n  title\n  description\n  createdAt\n}": types.RecipeItemFragmentDoc,
     "query FindAll {\n  findAll {\n    ...RecipeItem\n  }\n}": types.FindAllDocument,
@@ -57,6 +58,10 @@ export function graphql(source: "query GetManyProducts($where: ProductsWhereInpu
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "fragment UserUsefulDetails on Profiles {\n  email\n  fullName\n  userName\n  avatarUrl\n}"): (typeof documents)["fragment UserUsefulDetails on Profiles {\n  email\n  fullName\n  userName\n  avatarUrl\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation AuthSignin($login: String!, $password: String!) {\n  signUp(login: $login, password: $password) {\n    access_token\n    profile {\n      userName\n    }\n  }\n}"): (typeof documents)["mutation AuthSignin($login: String!, $password: String!) {\n  signUp(login: $login, password: $password) {\n    access_token\n    profile {\n      userName\n    }\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

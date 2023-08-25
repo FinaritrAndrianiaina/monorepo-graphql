@@ -20,6 +20,7 @@ values (
 return new;
 end;
 $$ language plpgsql security definer;
+
 create trigger on_profiles_created
 after
-insert on public.profiles for each row execute procedure public.handle_new_profile();
+insert on public.profiles for each row execute procedure features.handle_new_profile();

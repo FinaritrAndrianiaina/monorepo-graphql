@@ -1,11 +1,11 @@
 import {PrismaClient, profiles as Profiles} from "@ficommerce/generated/db";
 import {CreateProductInput} from "@ficommerce/shared";
 import QueueService from "../worker/queue.service";
-import {STRIPE_QUEUE} from "../constants";
+import {TRANSFORMER_QUEUE} from "../constants";
 import * as console from "console";
 
 export class ProductsService {
-    constructor(private prisma: PrismaClient, private stripeQueueService: QueueService) {
+    constructor(private prisma: PrismaClient, private transformerQueueService: QueueService) {
     }
 
     async createProducts(createProductArgs: CreateProductInput, user: Profiles) {
@@ -21,14 +21,14 @@ export class ProductsService {
                 }
             }
         })
-        this.stripeQueueService.add(STRIPE_QUEUE.REQUEST_PRODUCT_CREATE, savedProducts)
+        this.transformerQueueService.add(TRANSFORMER_QUEUE.TRANSFORMER_CREATE_PRODUCT, savedProducts)
             .then(console.log)
             .catch(console.error)
         return savedProducts;
     }
 
-    likeProduct(productId: string, user: Profiles) {
-        return this.prisma.products.update({
+    async likeProduct(productId: string, user: Profiles) {
+        const result = await this.prisma.products.update({
             where: {id: productId},
             data: {
                 profilesLiked: {
@@ -38,9 +38,14 @@ export class ProductsService {
                 }
             }
         })
+        this.transformerQueueService.add(TRANSFORMER_QUEUE.USER_LIKE_PRODUCT_ACTION, {
+            product: result,
+            userId: user.id
+        }).then().catch(console.error);
+        return result;
     }
 }
 
-export function createProductsService(prisma: PrismaClient, stripeQueueService: QueueService) {
-    return new ProductsService(prisma, stripeQueueService);
+export function createProductsService(prisma: PrismaClient, transformerQueueService: QueueService) {
+    return new ProductsService(prisma, transformerQueueService);
 }

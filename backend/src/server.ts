@@ -2,13 +2,12 @@ import "reflect-metadata";
 import {ApolloServer} from "@apollo/server";
 import {startStandaloneServer} from "@apollo/server/standalone";
 import {PrismaClient} from "@ficommerce/generated/db"
-import  {createServices} from "@ficommerce/services";
+import {createServices} from "@ficommerce/services";
 import {ServerContext} from "@ficommerce/graphql";
 import {generateGQLSchema} from "./schema";
 import * as console from "console";
 
 const PORT = Number(process.env.PORT) || 4000;
-
 
 
 async function bootstrap() {

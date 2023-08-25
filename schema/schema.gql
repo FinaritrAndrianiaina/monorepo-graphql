@@ -3,6 +3,14 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AuthorizationToken {
+  access_token: String
+  expires_in: Float
+  profile: Profiles
+  refresh_token: String
+  token_type: String
+}
+
 input CreateProductInput {
   description: String!
   name: String!
@@ -30,10 +38,33 @@ input DecimalFilter {
   notIn: [Decimal!]
 }
 
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+input JsonFilter {
+  array_contains: JSON
+  array_ends_with: JSON
+  array_starts_with: JSON
+  equals: JSON
+  gt: JSON
+  gte: JSON
+  lt: JSON
+  lte: JSON
+  not: JSON
+  path: [String!]
+  string_contains: String
+  string_ends_with: String
+  string_starts_with: String
+}
+
 type Mutation {
   addProductToUserLiked(productId: String!): Products!
   createOneProducts(data: CreateProductInput!): Products!
   createOneRecipe(data: RecipeCreateInput!): Recipe!
+  signIn(login: String!, password: String!): AuthorizationToken!
+  signUp(login: String!, password: String!): AuthorizationToken!
 }
 
 input NestedDecimalFilter {
@@ -153,6 +184,28 @@ input OrdersWhereInput {
   statusCode: StringFilter
 }
 
+input Product_featuresOrderByWithRelationInput {
+  metadata: SortOrder
+  productId: SortOrder
+  products: ProductsOrderByWithRelationInput
+  uniqueName: SortOrder
+}
+
+input Product_featuresRelationFilter {
+  is: Product_featuresWhereInput
+  isNot: Product_featuresWhereInput
+}
+
+input Product_featuresWhereInput {
+  AND: [Product_featuresWhereInput!]
+  NOT: [Product_featuresWhereInput!]
+  OR: [Product_featuresWhereInput!]
+  metadata: JsonFilter
+  productId: UuidFilter
+  products: ProductsRelationFilter
+  uniqueName: StringFilter
+}
+
 type Products {
   _count: ProductsCount
   createdAt: DateTime
@@ -168,6 +221,7 @@ type Products {
 
 type ProductsCount {
   orders(where: Order_itemsWhereInput): Int!
+  profilesLiked(where: ProfilesWhereInput): Int!
 }
 
 input ProductsListRelationFilter {
@@ -187,7 +241,9 @@ input ProductsOrderByWithRelationInput {
   orders: Order_itemsOrderByRelationAggregateInput
   owner: ProfilesOrderByWithRelationInput
   price: SortOrder
+  product_features: Product_featuresOrderByWithRelationInput
   profilesId: SortOrder
+  profilesLiked: ProfilesOrderByRelationAggregateInput
   stripeProductId: SortOrderInput
 }
 
@@ -217,7 +273,9 @@ input ProductsWhereInput {
   orders: Order_itemsListRelationFilter
   owner: ProfilesRelationFilter
   price: DecimalFilter
+  product_features: Product_featuresRelationFilter
   profilesId: UuidFilter
+  profilesLiked: ProfilesListRelationFilter
   stripeProductId: StringNullableFilter
 }
 
@@ -240,7 +298,18 @@ type Profiles {
 
 type ProfilesCount {
   customerOrders(where: OrdersWhereInput): Int!
+  likedProducts(where: ProductsWhereInput): Int!
   userProducts(where: ProductsWhereInput): Int!
+}
+
+input ProfilesListRelationFilter {
+  every: ProfilesWhereInput
+  none: ProfilesWhereInput
+  some: ProfilesWhereInput
+}
+
+input ProfilesOrderByRelationAggregateInput {
+  _count: SortOrder
 }
 
 input ProfilesOrderByWithRelationInput {
@@ -249,6 +318,8 @@ input ProfilesOrderByWithRelationInput {
   email: SortOrder
   fullName: SortOrder
   id: SortOrder
+  likedProducts: ProductsOrderByRelationAggregateInput
+  profiles_features_profiles_features_profilesToprofiles: Profiles_featuresOrderByWithRelationInput
   userName: SortOrder
   userProducts: ProductsOrderByRelationAggregateInput
   website: SortOrderInput
@@ -279,6 +350,8 @@ input ProfilesWhereInput {
   email: StringFilter
   fullName: StringFilter
   id: UuidFilter
+  likedProducts: ProductsListRelationFilter
+  profiles_features_profiles_features_profilesToprofiles: Profiles_featuresRelationFilter
   userName: StringFilter
   userProducts: ProductsListRelationFilter
   website: StringNullableFilter
@@ -287,6 +360,28 @@ input ProfilesWhereInput {
 input ProfilesWhereUniqueInput {
   email: String
   id: String
+}
+
+input Profiles_featuresOrderByWithRelationInput {
+  metadata: SortOrder
+  profiles: SortOrder
+  profiles_profiles_features_profilesToprofiles: ProfilesOrderByWithRelationInput
+  uniqueName: SortOrder
+}
+
+input Profiles_featuresRelationFilter {
+  is: Profiles_featuresWhereInput
+  isNot: Profiles_featuresWhereInput
+}
+
+input Profiles_featuresWhereInput {
+  AND: [Profiles_featuresWhereInput!]
+  NOT: [Profiles_featuresWhereInput!]
+  OR: [Profiles_featuresWhereInput!]
+  metadata: JsonFilter
+  profiles: UuidFilter
+  profiles_profiles_features_profilesToprofiles: ProfilesRelationFilter
+  uniqueName: StringFilter
 }
 
 type Query {

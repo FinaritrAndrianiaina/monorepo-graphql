@@ -1,9 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
+  previewFeatures = ["multiSchema", "postgresqlExtensions", "views"]
 }
 
 generator typegraphql {
@@ -14,101 +11,114 @@ generator typegraphql {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  schemas  = ["public"]
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [uuid_ossp(map: "uuid-ossp", schema: "extensions"), supabase_vault(schema: "extensions"), vector, pgsodium, pg_graphql(schema: "graphql")]
+  schemas    = ["extensions", "features", "public", "graphql"]
 }
 
 model recipe {
-  id          String   @default(uuid())
+  id          String   @unique @default(uuid())
   title       String   @db.VarChar(250)
-  description String?  @db.Text
-  createdAt   DateTime @default(now()) @db.Timestamp()
+  description String?
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
 
-  @@unique([id])
   @@schema("public")
 }
 
 model profiles {
-  id        String    @id @db.Uuid()
-  email     String    @unique @db.VarChar(50)
-  userName  String    @db.Text
-  fullName  String    @db.Text
-  avatarUrl String?   @db.Text
-  website   String?   @db.Text
-  createdAt DateTime? @default(now()) @db.Timestamp()
-  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
-
-  likedProducts products[] @relation("ProfilesProductLiked")
-
-  userProducts   products[] @relation("UserProducts")
-  customerOrders orders[]   @relation("CustomerOrders")
+  id                                                     String             @id @db.Uuid
+  userName                                               String
+  fullName                                               String
+  avatarUrl                                              String?
+  website                                                String?
+  createdAt                                              DateTime?          @default(now()) @db.Timestamp(6)
+  updatedAt                                              DateTime?          @default(now()) @updatedAt @db.Timestamp(6)
+  email                                                  String             @unique @db.VarChar(50)
+  profiles_features_profiles_features_profilesToprofiles profiles_features? @relation("profiles_features_profilesToprofiles")
+  customerOrders                                         orders[]           @relation("CustomerOrders")
+  userProducts                                           products[]         @relation("UserProducts")
+  likedProducts                                          products[]         @relation("ProfilesProductLiked")
 
   @@schema("public")
 }
 
 model products {
-  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String  @db.VarChar(45)
-  price       Decimal @db.Decimal(5, 2)
-  description String  @db.Text
-
-  createdAt DateTime? @default(now()) @db.Timestamp()
-  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
-
-  stripeProductId String?
-  profilesId      String  @db.Uuid()
-
-  owner         profiles      @relation("UserProducts", fields: [profilesId], references: [id])
-  orders        order_items[] @relation("ProductItems")
-  profilesLiked profiles[]    @relation("ProfilesProductLiked")
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String            @db.VarChar(45)
+  price            Decimal           @db.Decimal(5, 2)
+  description      String
+  createdAt        DateTime?         @default(now()) @db.Timestamp(6)
+  updatedAt        DateTime?         @default(now()) @updatedAt @db.Timestamp(6)
+  profilesId       String            @db.Uuid
+  stripeProductId  String?
+  product_features product_features?
+  orders           order_items[]     @relation("ProductItems")
+  owner            profiles          @relation("UserProducts", fields: [profilesId], references: [id])
+  profilesLiked    profiles[]        @relation("ProfilesProductLiked")
 
   @@schema("public")
 }
 
 model categories {
-  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code        String @unique
-  name        String @db.VarChar(45)
-  description String @db.Text
-
-  createdAt DateTime? @default(now()) @db.Timestamp()
-  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String    @unique
+  name        String    @db.VarChar(45)
+  description String
+  createdAt   DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime? @default(now()) @updatedAt @db.Timestamp(6)
 
   @@schema("public")
 }
 
 model order_status {
   code        String   @id @db.VarChar(45)
-  description String   @db.Text
+  description String
   order       orders[]
 
   @@schema("public")
 }
 
 model orders {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-
+  id         String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt  DateTime?     @default(now()) @db.Timestamp(6)
+  updatedAt  DateTime?     @default(now()) @updatedAt @db.Timestamp(6)
+  statusCode String        @db.VarChar(45)
+  customerId String        @db.Uuid
+  orderItems order_items[] @relation("OrderItems")
   customer   profiles      @relation("CustomerOrders", fields: [customerId], references: [id])
   status     order_status  @relation(fields: [statusCode], references: [code])
-  orderItems order_items[] @relation("OrderItems")
-
-  createdAt DateTime? @default(now()) @db.Timestamp()
-  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp()
-
-  statusCode String @db.VarChar(45)
-  customerId String @db.Uuid
 
   @@schema("public")
 }
 
 model order_items {
-  id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  order   orders   @relation("OrderItems", fields: [orderId], references: [id])
-  product products @relation("ProductItems", fields: [productId], references: [id])
-
-  orderId   String @db.Uuid
-  productId String @db.Uuid
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId   String   @db.Uuid
+  productId String   @db.Uuid
+  order     orders   @relation("OrderItems", fields: [orderId], references: [id])
+  product   products @relation("ProductItems", fields: [productId], references: [id])
 
   @@schema("public")
+}
+
+model product_features {
+  productId  String                 @id @db.Uuid
+  uniqueName String                 @unique
+  vector     Unsupported("vector")?
+  metadata   Json
+  products   products               @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@schema("features")
+}
+
+model profiles_features {
+  profiles                                      String                 @id @db.Uuid
+  uniqueName                                    String                 @unique
+  profileEmbedding                              Unsupported("vector")?
+  preferenceAggregate                           Unsupported("vector")?
+  metadata                                      Json
+  profiles_profiles_features_profilesToprofiles profiles               @relation("profiles_features_profilesToprofiles", fields: [profiles], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@schema("features")
 }
